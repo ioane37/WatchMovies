@@ -1,0 +1,72 @@
+﻿.movies{
+    width:900px;
+    display:flex;
+}
+
+.image{
+    width: 300px;
+    height:300px;
+}
+
+.movie-container {
+}
+
+.short-description {
+    margin-top: 5px;
+    font-size: 20px;
+    color:white;
+}
+
+.rating-container{
+    display:flex;
+    justify-content:flex-end;
+
+    margin-right:30px;
+}
+
+.description {
+    z-index: 100;
+
+    transition-duration: 300ms;
+    transition-property:width;
+
+    display: none;
+    overflow: hidden;
+    margin-left: 210px;
+    bottom: 2px;
+    position: absolute;
+    background-color: grey;
+    width: 0px;
+    height: 300px;
+    border-radius: 2%;
+}
+
+.description > * {
+    margin-left: 5px;
+}
+
+.name-header{
+    text-align:center;
+    color:white;
+}
+
+.description-text{
+    color:white;
+}
+
+.movie {
+    margin-left: 90px;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+.movie:hover {
+    filter: brightness(60%);
+}
+
+.header{
+    color:black;
+}
+
+.image{
+    width:200px;
+}

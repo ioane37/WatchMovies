@@ -1,0 +1,88 @@
+﻿html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body, html {
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: auto;
+}
+
+.containers {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background-color: #ccc;
+}
+
+.content {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.poster {
+    width: 185px;
+    height: 276px;
+
+}
+
+.video-container {
+    margin:0 auto;
+
+    width: 100%;
+    height: 600px;
+    background-color: black;
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.align-center{
+    margin:0 auto;
+}
+
+.video-movie {
+    width: 980px;
+    height: 500px;
+    background-color: rgb(72, 71, 71);
+
+    margin-top: 10px;
+}
+
+.ad-banner {
+    width: 980px;
+    height: 200px;
+    margin-top: 10px;
+    text-align: center;
+    background-image: url('https://brayve.net/wp-content/uploads/2019/06/4041/updated-a-visual-history-of-google-ad-labeling-in-search-results.jpg');
+    background-repeat: no-repeat;
+    background-size: 980px 200px;
+    background-position: center;
+}
+
+.description {
+    width: 781px;
+    height: 338px;
+    background-color: whitesmoke;
+    float: right;
+}
+
+.movie-btn {
+    width: 150px;
+    height: 40px;
+
+    float:right;
+
+    background-color:rgb(137, 115, 115);
+    cursor:pointer;
+}

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WatchMovies.Models.Movie>
+@{
+    ViewBag.Title = "Movie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("./Content/Movies.css")
+
+    <script src="https://kit.fontawesome.com/140f05292c.js" crossorigin="anonymous"></script>
+}
+<h2></h2>
+
+@*@{
+        System.Drawing.Image image;
+    }
+
+    @using (var ms = new MemoryStream(Model.Image)) {
+        image = System.Drawing.Image.FromStream(ms);
+    }*@
+
+@*@{
+
+        string path = Server.MapPath("~/Uploads/image.jpg");
+        using (FileStream fs = new FileStream(path, FileMode.Create)) {
+            fs.Write(Model.Image, 0, Model.Image.Length);
+
+            <img src="~/Uploads/Image.jpg" />
+        }
+    }*@
+<div id="content">
+    <div class="description">
+        <h3 class="name-header" name="name"></h3>
+
+        <span name="release-date"></span>
+        <br />
+        <span name="country">Country:</span>
+        <br />
+        <span name="genre-text"></span>
+
+        <br />
+
+        <span class="short-description">Short Description</span>
+        <p class="description-text" name="description-text"></p>
+
+        <br />
+        <div class="rating-container" name="rating-container">
+            <span name="rating" style="font-size:30px;margin-right:6px;color:blue;"></span>
+            <i class="fab fa-imdb" style="font-size:30px; color:blue; margin-top:6px;"></i>
+        </div>
+    </div>
+
+    <div class="movie-container">
+        <h2 class="header">ახალი დამატებული ფილმები</h2>
+        <div class="movies">
+            @foreach (var movie in Model) {
+
+                var base64 = Convert.ToBase64String(movie.Image);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+
+                if (!string.IsNullOrEmpty(movie.TrailerLink)) {
+                    <iframe src="@movie.TrailerLink.Replace("/watch?v=", "/embed/")" allow="autoplay"></iframe>
+                }
+                <div class="movie">
+                    <div style="display:flex">
+                        <img src="@imgSrc" class="image" data-movie-id="@movie.Id" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="movie-container">
+            <h2 class="header">ფილმები ქართულად</h2>
+            <div class="movies">
+                @foreach (var movie in Model) {
+
+                    var base64 = Convert.ToBase64String(movie.Image);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="movie">
+                        <div style="display:flex">
+                            <img src="@imgSrc" class="image" data-movie-id="@movie.Id" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="movie-container">
+                <h2 class="header">ტოპ ფილმები</h2>
+                <div class="movies">
+                    @foreach (var movie in Model) {
+
+                        var base64 = Convert.ToBase64String(movie.Image);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <div class="movie">
+                            <div style="display:flex">
+                                <img src="@imgSrc" class="image" data-movie-id="@movie.Id" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @section scripts{
+            <script>
+                $(document).ready(function () {
+                    const description = document.querySelector(".description");
+
+                    $("#content").on("click", ".image", function () {
+                        const targetId = this.getAttribute("data-movie-id");
+
+                        window.location.href = '@Url.Action("MovieForm","Movies")/' + targetId;
+                    })
+                    $("#content").on("mouseover", ".image", function () {
+                        description.style.display = "inline";
+
+                        if (this.offsetLeft != 0 && this.offsetTop != 0) {
+                            description.style.left = this.offsetLeft + "px";
+                            description.style.top = this.offsetTop + "px";
+                            description.style.width = "500px";
+                        }
+                        var targetId = this.getAttribute("data-movie-id");
+
+                        $.ajax({
+                            url: "api/movies/" + targetId,
+                            method: "GET",
+                            success: function (movieGenre) {
+                                description.children.namedItem("name").innerHTML = movieGenre.Movie.Name;
+                                description.children.namedItem("description-text").innerHTML = movieGenre.Movie.Description;
+                                description.children.namedItem("rating-container").children.namedItem("rating").innerHTML = movieGenre.Movie.Rating;
+                                description.children.namedItem("genre-text").innerHTML = "Genre: " + movieGenre.Genre.Name;
+
+                                const d = new Date(Date.parse(movieGenre.Movie.ReleaseDate));
+                                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
+                                const mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d)
+                                const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
+                                description.children.namedItem("release-date").innerHTML = "Release Date: " + ye + "/" + mo + "/" + da;
+                            }
+                        })
+                    })
+                    $("#content").on("mouseout", ".image", function () {
+                        description.style.display = "none";
+                        description.style.width = "0px";
+                    })
+                })
+            </script>
+        }

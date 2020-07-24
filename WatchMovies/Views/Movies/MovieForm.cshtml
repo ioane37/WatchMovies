@@ -1,0 +1,90 @@
+﻿@model WatchMovies.ViewModels.MovieGenreViewModel
+
+@{
+    ViewBag.Title = "MovieForm";
+    Layout = "";
+    @Styles.Render("~/Content/MovieForm.css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+}
+
+
+<div class="video-container">
+
+    <div class="align-center">
+        @{
+            var movieBase64 = Convert.ToBase64String(Model.Movie.ActualMovie);
+            var movieSrc = String.Format("data:movie/mp4;base64,{0}", movieBase64);
+        }
+
+        <video name="video" class="video-movie" controls controlsList="nodownload">
+            <source src="@movieSrc" type="video/mp4" />
+        </video>
+
+        <h2 style="font-size:30px; color:white; text-align:left">@Model.Movie.Name</h2>
+
+        <button class="movie-btn" type="button" data-movie-link="@Model.Movie.TrailerLink.Replace("/watch?v=", "/embed/")">Trailer</button>
+    </div>
+</div>
+<div class="containers">
+
+    <div class="content">
+        <div class="align-center">
+            <div class="ad-banner"></div>
+            <br />
+
+            @{
+                var base64 = Convert.ToBase64String(Model.Movie.Image);
+                var imageSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <img class="poster" src="@imageSrc" alt="Poster" />
+
+            <div class="description"></div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let movieSrc;
+        $(".movie-btn").on("click", function () {
+            if (movieSrc == null)
+                movieSrc = this.parentElement.children.namedItem("video").firstElementChild.src;
+            if (this.innerHTML == "Movie") {
+                        
+                const newElement = document.createElement("video");
+                newElement.controls = true;
+                const sourceElement = document.createElement("source");
+                sourceElement.type = "audio/mp4"
+                newElement.appendChild(sourceElement)
+                newElement.classList.add("video-movie");
+                newElement.setAttribute("name", "video");
+                newElement.firstElementChild.src = movieSrc;
+
+                const toReplace = this.parentElement.children.namedItem("video");
+                this.parentElement.replaceChild(newElement, toReplace);
+
+                this.innerHTML = "Trailer";
+            }
+            else if (this.innerHTML == "Trailer") {
+                const movieLink = this.getAttribute("data-movie-link");
+
+                const newElement = document.createElement("iframe");
+                newElement.classList.add("video-movie");
+                newElement.src = movieLink;
+                newElement.allowFullscreen = true;
+                newElement.setAttribute("name","video");
+                const toReplace = this.parentElement.children.namedItem("video");
+                this.parentElement.replaceChild(newElement, toReplace);
+                //this.parentElement.children.namedItem("video").remove();
+                //this.parentElement.innerHTML += '<iframe class="video-movie" src="" allow="autoplay"></iframe>';
+
+                this.innerHTML = "Movie";
+            }
+        })
+     })
+</script>
